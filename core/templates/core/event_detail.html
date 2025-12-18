@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+{% block title %}{{ event.titre }}{% endblock %}
+
+{% block content %}
+<h2>{{ event.titre }}</h2>
+<p class="text-muted">Club: <a href="{% url 'club_detail' event.club.id %}">{{ event.club.nom }}</a></p>
+
+<p><strong>Date début:</strong> {{ event.date_debut }}</p>
+<p><strong>Date fin:</strong> {{ event.date_fin }}</p>
+<p><strong>Lieu:</strong> {{ event.lieu }}</p>
+<p><strong>Statut:</strong> {{ event.get_statut_display }}</p>
+<p><strong>Places restantes:</strong> {{ remaining }}</p>
+
+<hr>
+<p>{{ event.description }}</p>
+
+{% if remaining > 0 %}
+  <a class="btn btn-success" href="{% url 'event_register' event.id %}">S'inscrire</a>
+{% else %}
+  <span class="badge bg-danger">Complet</span>
+{% endif %}
+{% endblock %}

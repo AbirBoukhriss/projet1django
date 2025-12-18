@@ -1,0 +1,9 @@
+{% extends "core/base.html" %}
+{% block title %}Complet{% endblock %}
+
+{% block content %}
+<div class="alert alert-danger">
+  ❌ Désolé, l’événement <strong>{{ event.titre }}</strong> est complet.
+</div>
+<a class="btn btn-secondary" href="{% url 'event_detail' event.id %}">Retour</a>
+{% endblock %}

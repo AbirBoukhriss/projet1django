@@ -1,0 +1,24 @@
+{% extends "core/base.html" %}
+{% block title %}Clubs{% endblock %}
+
+{% block content %}
+<h2>Liste des clubs</h2>
+
+<div class="row mt-3">
+  {% for c in clubs %}
+    <div class="col-md-6 mb-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ c.nom }}</h5>
+          <p class="card-text">{{ c.description|truncatechars:120 }}</p>
+          <p class="mb-1"><strong>Catégorie:</strong> {{ c.categorie.nom|default:"-" }}</p>
+          <p class="mb-2"><strong>Responsable:</strong> {{ c.responsable_nom }}</p>
+          <a class="btn btn-sm btn-primary" href="{% url 'club_detail' c.id %}">Voir détails</a>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p>Aucun club.</p>
+  {% endfor %}
+</div>
+{% endblock %}

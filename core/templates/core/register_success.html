@@ -1,0 +1,9 @@
+{% extends "core/base.html" %}
+{% block title %}Inscription confirmée{% endblock %}
+
+{% block content %}
+<div class="alert alert-success">
+  ✅ Inscription réussie pour l’événement : <strong>{{ event.titre }}</strong>
+</div>
+<a class="btn btn-secondary" href="{% url 'home' %}">Retour à l’accueil</a>
+{% endblock %}

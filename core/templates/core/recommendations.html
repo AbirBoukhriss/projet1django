@@ -1,0 +1,26 @@
+{% extends "core/base.html" %}
+{% block title %}Recommandations IA{% endblock %}
+
+{% block content %}
+<h2>Recommandations d'événements (IA simple)</h2>
+
+<form method="get" class="mt-3">
+  {{ form.as_p }}
+  <button class="btn btn-dark" type="submit">Recommander</button>
+</form>
+
+{% if recs %}
+  <hr>
+  <h4>Résultats</h4>
+  <div class="list-group mt-2">
+    {% for r in recs %}
+      <a class="list-group-item list-group-item-action" href="{% url 'event_detail' r.event.id %}">
+        <strong>{{ r.event.titre }}</strong><br>
+        <small>{{ r.justification }}</small>
+      </a>
+    {% endfor %}
+  </div>
+{% elif request.GET %}
+  <p class="text-muted mt-3">Aucune recommandation trouvée avec ces mots-clés.</p>
+{% endif %}
+{% endblock %}
