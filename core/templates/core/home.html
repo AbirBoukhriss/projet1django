@@ -1,22 +1,37 @@
 {% extends "core/base.html" %}
-{% block title %}Accueil{% endblock %}
+{% block title %}Événements{% endblock %}
 
 {% block content %}
-<h2>Événements à venir</h2>
+<section class="hero">
+  <h1 class="hero-title">Événements à venir</h1>
+  <p class="hero-subtitle">Découvrez les prochains événements organisés par nos clubs</p>
+</section>
 
-{% if events %}
-  <div class="list-group mt-3">
-    {% for e in events %}
-      <a class="list-group-item list-group-item-action" href="{% url 'event_detail' e.id %}">
-        <div class="d-flex justify-content-between">
-          <strong>{{ e.titre }}</strong>
-          <span class="badge bg-secondary">{{ e.get_statut_display }}</span>
+<section class="content-card">
+  {% if events %}
+    <div class="event-list">
+      {% for e in events %}
+      <a class="event-item" href="{% url 'event_detail' e.id %}">
+        <div class="event-main">
+          <div class="event-title">{{ e.titre }}</div>
+
+          <div class="event-meta">
+            <span><i class="bi bi-calendar3"></i> {{ e.date_debut|date:"j F Y à H:i" }}</span>
+            <span><i class="bi bi-geo-alt"></i> {{ e.lieu }}</span>
+            <span><i class="bi bi-tag"></i> Club: {{ e.club.nom }}</span>
+          </div>
         </div>
-        <small>{{ e.date_debut }} • {{ e.lieu }} • Club: {{ e.club.nom }}</small>
+
+        <div class="event-right">
+          <span class="badge badge-soft">
+            {{ e.get_statut_display }}
+          </span>
+        </div>
       </a>
-    {% endfor %}
-  </div>
-{% else %}
-  <p class="text-muted mt-3">Aucun événement à venir pour le moment.</p>
-{% endif %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-muted mb-0">Aucun événement à venir pour le moment.</p>
+  {% endif %}
+</section>
 {% endblock %}

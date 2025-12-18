@@ -2,25 +2,52 @@
 {% block title %}Recommandations IA{% endblock %}
 
 {% block content %}
-<h2>Recommandations d'événements (IA simple)</h2>
+<section class="hero hero-center">
+  <h1 class="hero-title">Recommandations d'événements (IA simple)</h1>
+  <p class="hero-subtitle">Obtenez des recommandations personnalisées basées sur vos centres d'intérêt</p>
+</section>
 
-<form method="get" class="mt-3">
-  {{ form.as_p }}
-  <button class="btn btn-dark" type="submit">Recommander</button>
-</form>
+<section class="content-card">
+  <form method="get" class="rec-form">
+    <div class="rec-field">
+      <label class="form-label fw-semibold">
+        Centres d'intérêt (mots-clés séparés par des virgules):
+      </label>
+      <input
+        type="text"
+        name="interests"
+        value="{{ request.GET.interests|default:'' }}"
+        class="form-control form-control-lg input-soft"
+        placeholder="ex: python, robotique, sport"
+      />
+    </div>
+
+    <button class="btn btn-secondary btn-lg btn-pill rec-btn" type="submit">
+      Recommander <i class="bi bi-send ms-2"></i>
+    </button>
+  </form>
+</section>
 
 {% if recs %}
-  <hr>
-  <h4>Résultats</h4>
-  <div class="list-group mt-2">
-    {% for r in recs %}
-      <a class="list-group-item list-group-item-action" href="{% url 'event_detail' r.event.id %}">
-        <strong>{{ r.event.titre }}</strong><br>
-        <small>{{ r.justification }}</small>
+  <section class="content-card mt-4">
+    <h5 class="mb-3">Résultats</h5>
+    <div class="event-list">
+      {% for r in recs %}
+      <a class="event-item" href="{% url 'event_detail' r.event.id %}">
+        <div class="event-main">
+          <div class="event-title">{{ r.event.titre }}</div>
+          <div class="event-meta">
+            <span><i class="bi bi-info-circle"></i> {{ r.justification }}</span>
+          </div>
+        </div>
+        <div class="event-right">
+          <span class="badge badge-soft">Voir</span>
+        </div>
       </a>
-    {% endfor %}
-  </div>
-{% elif request.GET %}
+      {% endfor %}
+    </div>
+  </section>
+{% elif request.GET.interests %}
   <p class="text-muted mt-3">Aucune recommandation trouvée avec ces mots-clés.</p>
 {% endif %}
 {% endblock %}

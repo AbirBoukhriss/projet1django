@@ -2,23 +2,40 @@
 {% block title %}Clubs{% endblock %}
 
 {% block content %}
-<h2>Liste des clubs</h2>
+<section class="hero">
+  <h1 class="hero-title">Liste des clubs</h1>
+  <p class="hero-subtitle">Explorez tous les clubs disponibles</p>
+</section>
 
-<div class="row mt-3">
+<div class="row g-4">
   {% for c in clubs %}
-    <div class="col-md-6 mb-3">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{{ c.nom }}</h5>
-          <p class="card-text">{{ c.description|truncatechars:120 }}</p>
-          <p class="mb-1"><strong>Catégorie:</strong> {{ c.categorie.nom|default:"-" }}</p>
-          <p class="mb-2"><strong>Responsable:</strong> {{ c.responsable_nom }}</p>
-          <a class="btn btn-sm btn-primary" href="{% url 'club_detail' c.id %}">Voir détails</a>
+  <div class="col-lg-6">
+    <div class="club-card">
+      <div class="club-body">
+        <h3 class="club-title">{{ c.nom }}</h3>
+        <p class="club-desc">{{ c.description|default:"—"|truncatechars:140 }}</p>
+
+        <div class="club-meta">
+          <div class="club-meta-item">
+            <i class="bi bi-tag"></i>
+            <span><strong>Catégorie:</strong> {{ c.categorie.nom|default:"-" }}</span>
+          </div>
+          <div class="club-meta-item">
+            <i class="bi bi-person"></i>
+            <span><strong>Responsable:</strong> {{ c.responsable_nom }}</span>
+          </div>
         </div>
       </div>
+
+      <div class="club-footer">
+        <a class="btn btn-primary w-100 btn-lg btn-pill" href="{% url 'club_detail' c.id %}">
+          Voir détails <i class="bi bi-box-arrow-up-right ms-2"></i>
+        </a>
+      </div>
     </div>
+  </div>
   {% empty %}
-    <p>Aucun club.</p>
+    <p class="text-muted">Aucun club.</p>
   {% endfor %}
 </div>
 {% endblock %}
