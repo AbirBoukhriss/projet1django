@@ -1,0 +1,82 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'admin/admin-theme.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="admin-dashboard">
+
+  <!-- LEFT -->
+  <div class="admin-left">
+
+    {% if app_list %}
+      {% for app in app_list %}
+        <section class="admin-section">
+          <h2 class="admin-section-title">{{ app.name }}</h2>
+
+          <div class="admin-cards">
+            {% for model in app.models %}
+              <div class="admin-card">
+                <div class="admin-card-top">
+                  <div class="admin-card-icon">
+                    <i class="bi bi-grid"></i>
+                  </div>
+
+                  <div class="admin-card-text">
+                    <div class="admin-card-name">{{ model.name }}</div>
+                    <div class="admin-card-sub">{% trans "Gérer" %}</div>
+                  </div>
+
+                  {% if model.admin_url %}
+                    <a class="admin-card-arrow" href="{{ model.admin_url }}" title="{% trans 'Ouvrir' %}">
+                      <i class="bi bi-chevron-right"></i>
+                    </a>
+                  {% endif %}
+                </div>
+
+                <div class="admin-card-actions">
+                  {% if model.add_url %}
+                    <a class="admin-btn admin-btn-primary" href="{{ model.add_url }}">
+                      <i class="bi bi-plus-lg"></i> {% trans "Ajouter" %}
+                    </a>
+                  {% else %}
+                    <span class="admin-btn admin-btn-disabled">
+                      <i class="bi bi-plus-lg"></i> {% trans "Ajouter" %}
+                    </span>
+                  {% endif %}
+
+                  {% if model.admin_url %}
+                    <a class="admin-btn admin-btn-light" href="{{ model.admin_url }}">
+                      <i class="bi bi-pencil-square"></i> {% trans "Modifier" %}
+                    </a>
+                  {% else %}
+                    <span class="admin-btn admin-btn-disabled">
+                      <i class="bi bi-pencil-square"></i> {% trans "Modifier" %}
+                    </span>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </section>
+      {% endfor %}
+    {% endif %}
+
+  </div>
+
+  <!-- RIGHT: recent actions (Django built-in sidebar) -->
+  <aside class="admin-right">
+    <div class="admin-panel">
+      <h2 class="admin-panel-title">{% trans "Actions récentes" %}</h2>
+      {% block sidebar %}
+        {{ block.super }}
+      {% endblock %}
+    </div>
+  </aside>
+
+</div>
+{% endblock %}

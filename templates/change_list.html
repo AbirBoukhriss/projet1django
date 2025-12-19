@@ -1,0 +1,27 @@
+{% extends "admin/change_list.html" %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'admin/admin-theme.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="admin-shell">
+  <aside class="admin-sidenav">
+    <div class="admin-sidenav-title">Admin</div>
+    <a class="admin-sidenav-link" href="{% url 'admin:index' %}">
+      <i class="bi bi-speedometer2"></i> Dashboard
+    </a>
+    <a class="admin-sidenav-link" href="/">
+      <i class="bi bi-box-arrow-up-right"></i> Voir le site
+    </a>
+    <div class="admin-sidenav-sep"></div>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-card">
+      {{ block.super }}
+    </div>
+  </main>
+</div>
+{% endblock %}
